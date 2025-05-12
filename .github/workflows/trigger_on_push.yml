@@ -1,0 +1,15 @@
+name: Push to main branch
+
+on:
+  push:
+    branches:
+      - main
+
+jobs: 
+  build: 
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: ctions/checkout@v4
+      - name: Build project
+        run: echo "Building project.."
