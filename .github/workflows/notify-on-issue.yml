@@ -33,6 +33,7 @@ jobs:
             echo "result=success" >> $GITHUB_OUTPUT
           else
             echo "result=failure" >> $GITHUB_OUTPUT
+          fi
         shell: bash
 
       - name: Report result
