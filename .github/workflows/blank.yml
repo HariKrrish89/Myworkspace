@@ -1,13 +1,21 @@
-name: Myworkflow
+name: Cross-platform workflow
+
 on: push
 
-jobs: 
-  my-first-job:
+jobs:
+  build-linux:
     runs-on: ubuntu-latest
     steps: 
-      - run: echo "Hello-World"
-  my-second-job:
+      - run: echo "Building on Ubuntu"
+
+  build-macos:
+    runs-on: macos-latest
+    steps:
+      - run: echo "Building on macos"
+
+  build-windows:
     runs-on: windows-latest
-    steps: 
-      - run: echo "Bye-World"
+    steps:
+      - run: echo "Building on windows"
   
+
