@@ -1,0 +1,40 @@
+name: notify on issues
+
+on:
+  issues: 
+    types: [opened]
+
+jobs: 
+  notify:
+    runs-on: ubuntu-latest
+
+    steps: 
+      - name: Send notification email
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: ${{ secrets.SMTP_SERVER }}
+          server_port: ${{ secrets.SMTP_PORT }}
+          username: ${{ secrets.EMAIL_USERNAME }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          subject: '🔔 New GitHub Issue Created'
+          to: ${{ secrets.TO_EMAIL }}
+          from: ${{ secrets.EMAIL_USERNAME }}
+          body: |
+            A new issue has been opened in your repository.
+
+            📁 Repository: ${{ github.repository }}
+            📝 Issue Title: ${{ github.event.issue.title }}
+            🔗 Issue URL: ${{ github.event.issue.html_url }}
+
+      - name: Check issue title for keyword
+        id: check
+        run: |
+          if [[ "${{ github.event.issue.title }}" == *"bug"* ]]; then
+            echo "result=success" >> $GITHUB_OUTPUT
+          else
+            echo "result=failure" >> $GITHUB_OUTPUT
+        shell: bash
+
+      - name: Report result
+        run: |
+          echo "Job completed with result: ${{ steps.check.outputs.result }}"
